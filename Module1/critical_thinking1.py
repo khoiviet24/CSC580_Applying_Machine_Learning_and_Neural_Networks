@@ -48,10 +48,8 @@ X_train, X_test, y_train, y_test = train_test_split(TRAIN_INPUT, TRAIN_OUTPUT, t
 model = LinearRegression()
 model.fit(X_train, y_train)
 
-# Making predictions on the test set
-y_pred = model.predict(X_test)
-
 # Evaluating the model performance
+y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 print(f'Mean Squared Error: {mse}')
 
@@ -62,5 +60,11 @@ for i in range(num_vars):
     test_input.append(val)
 
 # Reshape the input to a 2D array and make the prediction
-predicted_output = model.predict([test_input])
-print(f'Predicted output for input {test_input}: {predicted_output[0]}')
+predicted_output = model.predict([test_input])[0]
+
+# Compute the actual output based on user coefficients and inputs
+actual_output = sum(c * v for c, v in zip(coefficients, test_input))
+
+# Print the predicted vs actual output
+print(f'\nPredicted output for input {test_input}: {predicted_output}')
+print(f'Actual output for input {test_input} based on the equation: {actual_output}')
